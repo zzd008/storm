@@ -1,0 +1,44 @@
+95    word:am
+95    word:am
+95    word:am
+95    word:am
+95    word:am
+91    word:love
+91    word:love
+91    word:love
+91    word:love
+91    word:love
+95    word:am
+89    word:i
+89    word:hanmeimei
+89    word:i
+89    word:hanmeimei
+89    word:i
+93    word:lilei
+93    word:lilei
+93    word:lilei
+93    word:lilei
+
+
+-----------------------------------
+95    word:hanmeimei
+89    word:love
+95    word:hanmeimei
+89    word:am
+95    word:am
+89    word:love
+89    word:love
+89    word:hanmeimei
+89    word:am
+95    word:love
+95    word:hanmeimei
+89    word:i
+95    word:am
+95    word:i
+95    word:hanmeimei
+95    word:i
+95    word:hanmeimei
+89    word:am
+95    word:love
+89    word:love
+95    word:love

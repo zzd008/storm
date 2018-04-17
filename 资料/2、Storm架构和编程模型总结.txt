@@ -1,0 +1,71 @@
+1、编程模型
+	DataSource：外部数据源
+	Spout：接受外部数据源的组件，将外部数据源转化成Storm内部的数据，以Tuple为基本的传输单元下发给Bolt
+	Bolt:接受Spout发送的数据，或上游的bolt的发送的数据。根据业务逻辑进行处理。发送给下一个Bolt或者是存储到某种介质上。介质可以是Redis可以是mysql，或者其他。
+	Tuple：Storm内部中数据传输的基本单元，里面封装了一个List对象，用来保存数据。
+	StreamGrouping:数据分组策略
+		7种：shuffleGrouping(Random函数),Non Grouping(Random函数),FieldGrouping(Hash取模)、Local or ShuffleGrouping 本地或随机，优先本地。
+		
+2、并发度
+	用户指定的一个任务，可以被多个线程执行，并发度的数量等于线程的数量。一个任务的多个线程，会被运行在多个Worker（JVM）上。
+	有一种类似于平均算法的负载均衡策略。尽可能减少网络IO，和Hadoop中的MapReduce中的本地计算的道理一样，尽可能使计算和数据在同一台机器上。
+	
+	
+3、架构
+	Nimbus：任务分配
+	Supervisor：接受任务，并启动worker。worker的数量根据端口号来的。
+	Worker:执行任务的具体组件（其实就是一个JVM）,可以执行两种类型的任务，Spout任务或者bolt任务。
+	Task：Task=线程=executor（executor是执行器，用于执行Task）。 一个Task属于一个Spout或者Bolt并发任务（即 一个Task就是spout或者blot下的一个线程）。
+	Zookeeper：保存任务分配的信息、心跳信息、元数据信息。
+	
+4、Worker与topology
+	一个worker只属于一个topology,每个worker中运行的task只能属于这个topology，topology被kill掉，worker也随之杀掉。    
+	反之，一个topology包含多个worker，其实就是这个topology运行在多个worker上。
+	一个topology要求的worker数量如果不被满足，集群在任务分配时，根据现有的worker先运行topology。
+	如果当前集群中worker数量为0，那么最新提交的topology将只会被标识active，不会运行，只有当集群有了空闲资源之后，才会被运行。
+	一个spout或blot可以分布运行在多个Supervisor的worker上
+	
+5、如何指定驱动类中的每个组件的并发度？如何设置worker的数量？
+	1，根据上游的数据量来设置spout的并发度
+	2，根据业务复杂度和execute方法执行时间来设置bolt的并发度
+	3，根据集群的可用资源来配置，一般是70%的资源使用率，因为运行时worker可能失败，剩下的30%来做替补
+	4，worker的数量理论上根据程序并发度总的task数量来均分，在实际业务场景中，需要反复调整。
+	
+6、ack-fail机制（https://www.cnblogs.com/intsmaze/p/5918087.html）
+	是否开启ack机制，取决你的业务逻辑，如果不在乎某一条数据丢失，则不用开启，比如大数据处理点击流时，就不用在乎某一条数据是否丢失
+
+	要实现ack机制：
+	1，spout发射tuple的时候指定messageId
+	2，spout要重写BaseRichSpout的fail和ack方法
+	3，spout对发射的tuple进行缓存(hashmap) 发射时将tuple的uuid和values放进去 
+	3，spout根据messageId对于ack的tuple则从缓存队列中删除，对于fail的tuple可以选择重发。
+	4,设置acker数至少大于0；Config.setNumAckers(conf, ackerParal);
+	5、bolt中处理完tuple调用collector.ack(tuple)来告诉storm自己当前处理的tuple已经完成，。
+	
+	
+	有三种方法可以去掉消息的可靠性： 
+	1、将参数Config.TOPOLOGY_ACKERS设置为0，通过此方法，当Spout发送一个消息的时候，它的ack方法将立刻被调用； 
+	2、Spout发送一个消息时，不指定此消息的messageID。当需要关闭特定消息可靠性的时候，可以使用此方法； 
+	3、最后，如果你不在意某个消息派生出来的子孙消息的可靠性，则此消息派生出来的子消息在发送时不要做锚定就是不再往下发送数据collect.emit();，
+		即在emit方法中不指定输入消息。因为这些子孙消息没有被锚定在任何tuple tree中，因此他们的失败不会引起任何spout重新发送消息。
+
+	
+
+	1，storm中专门有一个task叫做acker task（其实是一个bolt）来做负责tuple的可靠性
+	在spout中，需要ackfail时，请为每个tuple生成一个messageid，这个messageid是用来标识你关心的tuple；
+	 当这个tuple被完全处理后（接收这个tuple的bolt 调用collector.ack（tuple）后），storm会调用ack方法，否则调用fail方法。至于消息是否重发，由你自己决定处理。
+	2，在流式计算中topology的bolt组件是可以配置多个的，在每个环节中，都需要bolt组件显式告诉storm框架，自己对当前接收的tuple处理完成。
+	数据结构：<spouttaskid,<rootid,ack val=0>>
+	spout--->tuple1（message，rootid）--->bolt1---ack(tuple1) (messageid 是给程序员自己看的，rootid由storm生成，标识唯一的tuple）
+					   bolt1--tuple1-1---bolt2---collector.ack(tuple1-1)
+					   bolt1--tuple1-2---bolt3---ack(tuple1-2)
+					   bolt1--tuple1-3---bolt4---ack(tuple1-3)
+										 bolt4--tuple2-1---bolt5---ack(tuple2-1)
+										 bolt4--tuple2-2---bolt6---ack(tuple2-2)
+										 bolt4--tuple2-3---bolt7---ack(tuple2-3)
+										 
+	3，ack机制中由两种tuple，一种是原始消息（datatuple），另一种是acktuple<rootid,tupleid>，datatuple中包含一个messageid对象，messageid对象会携带acktuple
+	datatuple在传输时,acktuple会根据rootid找到对应的发给ack task，然后用tupleid的二进制去做异或操作。 
+	创建，应答 
+	超过超时时长没有应答collector.ack(tuple)进行异或操作，就判定fail了
+	

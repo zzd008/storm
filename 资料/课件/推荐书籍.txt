@@ -1,0 +1,5 @@
+Hadoop权威指南  http://item.jd.com/11681556.html
+大型网站系统与Java中间件实践  http://item.jd.com/11449803.html
+深入理解Java虚拟机 http://item.jd.com/11252778.html
+Netty权威指南  http://item.jd.com/11681556.html
+大数据时代 http://item.jd.com/11143153.html

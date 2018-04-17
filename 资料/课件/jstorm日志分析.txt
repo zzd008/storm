@@ -1,0 +1,109 @@
+"C:\Program Files\Java\jdk1.8.0_73\bin\java"  ......  cn.itcast.hadoop.storm.wordcount.WordCountTopologyMain
+
+
+2016-04-13 15:29:03,109 [main] [com.alibaba.jstorm.daemon.nimbus.NimbusServer]-[INFO] Begin to start nimbus on local model
+
+2016-04-13 15:29:05,348 [main] [com.alibaba.jstorm.daemon.supervisor.Supervisor]-[INFO] Starting Supervisor with conf...
+2016-04-13 15:29:05,682 [main] [com.alibaba.jstorm.daemon.supervisor.Heartbeat]-[INFO] Successfully init supervisor heartbeat thread, SupervisorInfo[hostName=192.168.77.23,supervisorId=c448aa9d-ce4e-4eec-9fa9-03f7aed6220d,timeSecs=<null>,uptimeSecs=<null>,workerPorts=[6900, 6901, 6902]]
+
+2016-04-13 15:29:06,232 [main] [com.alibaba.jstorm.daemon.nimbus.ServiceHandler]-[INFO] Normalized configuration:{topology.id=word-count-1-1460532546, topology.acker.executors=1, topology.skip.missing.kryo.registrations=true, topology.enable.message.timeouts=false, spout.delay.run=0, topology.debug=true, topology.trident.batch.emit.interval.millis=50, topology.name=word-count, topology.backpressure.enable=false, task.cleanup.timeout.sec=0, storm.cluster.mode=local, zmq.linger.millis=0, topology.kryo.register={}, topology.debug.recv.tuple=true, topology.kryo.decorators=[], topology.max.task.parallelism=3}
+
+
+2016-04-13 15:29:06,236 [main] [com.alibaba.jstorm.daemon.nimbus.NimbusUtils]-[INFO] Set count2 parallelism 3
+2016-04-13 15:29:06,236 [main] [com.alibaba.jstorm.daemon.nimbus.NimbusUtils]-[INFO] Set split1 parallelism 2
+2016-04-13 15:29:06,236 [main] [com.alibaba.jstorm.daemon.nimbus.NimbusUtils]-[INFO] Set spout1 parallelism 1
+
+
+
+2016-04-13 15:29:06,629 [TopologyAssign] [com.alibaba.jstorm.daemon.nimbus.TopologyAssign]-[INFO] Successfully make assignment for topology id word-count-1-1460532546: Assignment[masterCodeDir=C:\Users\MAOXIA~1\AppData\Local\Temp\\ce4a2c69-de2d-41c8-adf5-25ed786650bb\nimbus\stormdist\word-count-1-1460532546,nodeHost={c448aa9d-ce4e-4eec-9fa9-03f7aed6220d=192.168.77.23},taskStartTimeSecs={1=1460532546, 2=1460532546, 3=1460532546, 4=1460532546, 5=1460532546, 6=1460532546, 7=1460532546},workers=[ResourceWorkerSlot[hostname=192.168.77.23,memSize=0,cpu=0,tasks=[1, 2, 3, 4, 5, 6, 7],jvm=<null>,nodeId=c448aa9d-ce4e-4eec-9fa9-03f7aed6220d,port=6900]],timeStamp=1460532546577,type=Assign]
+
+
+2016-04-13 15:29:06,720 [EventManagerImp] [com.alibaba.jstorm.daemon.supervisor.SyncSupervisorEvent]-[DEBUG] Get all assignments {word-count-1-1460532546=Assignment[masterCodeDir=C:\Users\MAOXIA~1\AppData\Local\Temp\\ce4a2c69-de2d-41c8-adf5-25ed786650bb\nimbus\stormdist\word-count-1-1460532546,nodeHost={c448aa9d-ce4e-4eec-9fa9-03f7aed6220d=192.168.77.23},taskStartTimeSecs={1=1460532546, 2=1460532546, 3=1460532546, 4=1460532546, 5=1460532546, 6=1460532546, 7=1460532546},workers=[ResourceWorkerSlot[hostname=192.168.77.23,memSize=0,cpu=0,tasks=[1, 2, 3, 4, 5, 6, 7],jvm=<null>,nodeId=c448aa9d-ce4e-4eec-9fa9-03f7aed6220d,port=6900]],timeStamp=1460532546577,type=Assign]}
+
+
+
+2016-04-13 15:29:06,731 [EventManagerImp] [com.alibaba.jstorm.daemon.supervisor.SyncSupervisorEvent]-[INFO] Downloading code for storm id word-count-1-1460532546 from C:\Users\MAOXIA~1\AppData\Local\Temp\\ce4a2c69-de2d-41c8-adf5-25ed786650bb\nimbus\stormdist\word-count-1-1460532546
+
+2016-04-13 15:29:06,782 [main] [com.alibaba.jstorm.daemon.nimbus.ServiceHandler]-[INFO] Finish submit for word-count
+
+2016-04-13 15:29:07,105 [EventManagerImp] [com.alibaba.jstorm.daemon.supervisor.SyncSupervisorEvent]-[INFO] Finished downloading code for storm id word-count-1-1460532546 from C:\Users\MAOXIA~1\AppData\Local\Temp\\ce4a2c69-de2d-41c8-adf5-25ed786650bb\nimbus\stormdist\word-count-1-1460532546
+
+
+
+
+
+
+
+
+2016-04-13 15:29:07,116 [EventManagerImp] [com.alibaba.jstorm.daemon.supervisor.SyncProcessEvent]-[DEBUG] Syncing processes, interval seconds:1
+2016-04-13 15:29:07,116 [EventManagerImp] [com.alibaba.jstorm.daemon.supervisor.SyncProcessEvent]-[DEBUG] Assigned tasks: {6900=LocalAssignment[topologyId=word-count-1-1460532546,topologyName=word-count,taskIds=[1, 2, 3, 4, 5, 6, 7],mem=0,cpu=0,jvm=<null>,timeStamp=1460532546577]}
+
+
+2016-04-13 15:29:07,291 [EventManagerImp] [com.alibaba.jstorm.daemon.worker.WorkerData]-[INFO] Worker Configuration......
+
+
+2016-04-13 15:29:07,408 [EventManagerImp] [com.alibaba.jstorm.daemon.worker.WorkerData]-[INFO] Current worker taskList:[1, 2, 3, 4, 5, 6, 7]
+
+
+2016-04-13 15:29:12,325 [EventManagerImp] [com.alibaba.jstorm.metric.JStormMetrics]-[INFO] init task base metric, tp id:word-count-1-1460532546, comp id:count2, task id:1
+
+2016-04-13 15:29:12,331 [EventManagerImp] [com.alibaba.jstorm.metric.JStormMetrics]-[INFO] init task base metric, tp id:word-count-1-1460532546, comp id:count2, task id:2
+
+2016-04-13 15:29:12,333 [EventManagerImp] [com.alibaba.jstorm.metric.JStormMetrics]-[INFO] init task base metric, tp id:word-count-1-1460532546, comp id:count2, task id:3
+
+2016-04-13 15:29:12,347 [EventManagerImp] [com.alibaba.jstorm.metric.JStormMetrics]-[INFO] init task base metric, tp id:word-count-1-1460532546, comp id:split1, task id:4
+2016-04-13 15:29:12,350 [EventManagerImp] [com.alibaba.jstorm.metric.JStormMetrics]-[INFO] init task base metric, tp id:word-count-1-1460532546, comp id:split1, task id:5
+2016-04-13 15:29:12,351 [EventManagerImp] [com.alibaba.jstorm.metric.JStormMetrics]-[INFO] init task base metric, tp id:word-count-1-1460532546, comp id:__acker, task id:6
+2016-04-13 15:29:12,352 [EventManagerImp] [com.alibaba.jstorm.metric.JStormMetrics]-[INFO] init task base metric, tp id:word-count-1-1460532546, comp id:spout1, task id:7
+
+
+2016-04-13 15:29:12,367 [Thread-24] [com.alibaba.jstorm.cluster.Common]-[INFO] outbound_components, outTasks=[1, 2, 3] for task-5
+2016-04-13 15:29:12,399 [Thread-23] [com.alibaba.jstorm.cluster.Common]-[INFO] outbound_components, outTasks=[1, 2, 3] for task-4
+2016-04-13 15:29:12,399 [Thread-23] [com.alibaba.jstorm.cluster.Common]-[INFO] outbound_components, outTasks=[4,5] for task-7
+
+
+
+2016-04-13 15:29:12,578 [Thread-21] [com.alibaba.jstorm.task.execute.BaseExecutors]-[INFO] Registor inner transfer for executor thread of count2:1
+2016-04-13 15:29:12,578 [Thread-21] [com.alibaba.jstorm.task.execute.BaseExecutors]-[INFO] Registor inner transfer for executor thread of count2:2
+2016-04-13 15:29:12,578 [Thread-21] [com.alibaba.jstorm.task.execute.BaseExecutors]-[INFO] Registor inner transfer for executor thread of count2:3
+2016-04-13 15:29:12,578 [Thread-21] [com.alibaba.jstorm.task.execute.BaseExecutors]-[INFO] Registor inner transfer for executor thread of split1:4
+2016-04-13 15:29:12,578 [Thread-21] [com.alibaba.jstorm.task.execute.BaseExecutors]-[INFO] Registor inner transfer for executor thread of split1:5
+2016-04-13 15:29:12,578 [Thread-21] [com.alibaba.jstorm.task.execute.BaseExecutors]-[INFO] Registor inner transfer for executor thread of spout1:7
+
+
+
+2016-04-13 15:29:12,977 [spout1:7-MultipleThreadSpoutExecutors] [com.alibaba.jstorm.task.execute.BaseExecutors]-[INFO] spout1:7 begin to init
+2016-04-13 15:29:12,977 [count2:2-BoltExecutors] [com.alibaba.jstorm.task.execute.BaseExecutors]-[INFO] count2:2 begin to init
+
+
+
+95 cow
+95 jumped
+91 the
+91 over
+91 the
+91 moon
+
+
+2016-04-13 15:29:22,359 [WorkerHeartbeatRunable] [com.alibaba.jstorm.daemon.worker.hearbeat.WorkerHeartbeatRunable]-[DEBUG] Doing heartbeat:b09ae7c2-1a1d-4f49-9cec-1699e907fd13,port:6900,hbWorkerHeartbeat[timeSecs=1460532562,topologyId=word-count-1-1460532546,taskIds=[1, 2, 3, 4, 5, 6, 7],port=6900]
+
+
+
+91 moon
+95 cow
+95 jumped
+91 the
+91 over
+91 the
+91 moon
+
+2016-04-13 15:29:26,361 [WorkerHeartbeatRunable] [com.alibaba.jstorm.daemon.worker.hearbeat.WorkerHeartbeatRunable]-[DEBUG] Doing heartbeat:b09ae7c2-1a1d-4f49-9cec-1699e907fd13,port:6900,hbWorkerHeartbeat[timeSecs=1460532566,topologyId=word-count-1-1460532546,taskIds=[1, 2, 3, 4, 5, 6, 7],port=6900]
+
+
+91 the
+91 over
+91 the
+91 moon
+95 cow
+95 jumped
+2016-04-13 15:29:28,393 [WorkerHeartbeatRunable] [com.alibaba.jstorm.daemon.worker.hearbeat.WorkerHeartbeatRunable]-[DEBUG] Doing heartbeat:b09ae7c2-1a1d-4f49-9cec-1699e907fd13,port:6900,hbWorkerHeartbeat[timeSecs=1460532568,topologyId=word-count-1-1460532546,taskIds=[1, 2, 3, 4, 5, 6, 7],port=6900]

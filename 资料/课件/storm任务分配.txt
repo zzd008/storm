@@ -1,0 +1,29 @@
+TopologyMetricsRunnable.TaskStartEvent[oldAssignment=<null>,newAssignment=Assignment[masterCodeDir=C:\Users\MAOXIA~1\AppData\Local\Temp\\e73862a8-f7e7-41f3-883d-af494618bc9f\nimbus\stormdist\double11-1-1458909887,nodeHost={61ce10a7-1e78-4c47-9fb3-c21f43a331ba=192.168.1.106},taskStartTimeSecs={1=1458909910, 2=1458909910, 3=1458909910, 4=1458909910, 5=1458909910, 6=1458909910, 7=1458909910, 8=1458909910},workers=[ResourceWorkerSlot[hostname=192.168.1.106,memSize=0,cpu=0,tasks=[1, 2, 3, 4, 5, 6, 7, 8],jvm=<null>,nodeId=61ce10a7-1e78-4c47-9fb3-c21f43a331ba,port=6900]],timeStamp=1458909910633,type=Assign],task2Component=<null>,clusterName=<null>,topologyId=double11-1-1458909887,timestamp=0]
+
+
+
+
+  TupleImplExt tp1 = new TupleImplExt(this.topology_context, values, this.task_id.intValue(), out_stream_id, msgid);
+  tp1.setTargetTaskId(t.intValue());
+  this.transfer_fn.transfer(tp1);
+  
+TaskTransfer---->    
+public void transfer(TupleExt tuple) {
+        int taskId = tuple.getTargetTaskId();
+        DisruptorQueue exeQueue = (DisruptorQueue)this.innerTaskTransfer.get(Integer.valueOf(taskId));
+        if(exeQueue != null) {
+            exeQueue.publish(tuple);
+        } else {
+            this.push(taskId, tuple);
+        }
+
+        if(this.backpressureController.isBackpressureMode()) {
+            this.backpressureController.flowControl();
+        }
+
+    }
+	
+
+  
+
+

@@ -1,0 +1,52 @@
+
+sudo mkdir /export/servers
+sudo chmod -R 777 /export
+mkdir /export/servers
+
+tar -zxvf apache-storm-1.0.0.tar.gz -C /export/servers
+ln -s apache-storm-1.0.0 storm
+vim /etc/profile
+export STORM_HOME=/export/servers/storm
+export PATH=$PATH:$STORM_HOME/bin
+
+vim storm.yaml
+
+#指定storm使用的zk集群
+storm.zookeeper.servers:
+     - "master"
+     - "slave1"
+     - "slave2"
+#指定storm集群中的nimbus节点所在的服务器
+nimbus.host: "master"
+#指定nimbus启动JVM最大可用内存大小
+nimbus.childopts: "-Xmx1024m"
+#指定supervisor启动JVM最大可用内存大小
+supervisor.childopts: "-Xmx1024m"
+#指定supervisor节点上，每个worker启动JVM最大可用内存大小
+worker.childopts: "-Xmx768m"
+#指定ui启动JVM最大可用内存大小，ui服务一般与nimbus同在一个节点上。
+ui.childopts: "-Xmx768m"
+#指定supervisor节点上，启动worker时对应的端口号，每个端口对应槽，每个槽位对应一个worker,四个端口表示该节点最多启动四个worker
+supervisor.slots.ports:
+    - 6700
+    - 6701
+    - 6702
+    - 6703
+
+启动
+master中启动nimbus和ui:
+nohup storm nimbus &
+nohup storm ui &
+
+supervis机器上启动:
+nohup storm supervisor &
+
+
+
+
+
+
+
+
+
+
